@@ -6,6 +6,9 @@ import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
+  const [blogTitle, setBlogTitle] = useState('')
+  const [blogAuthor, setBlogAuthor] = useState('')
+  const [blogUrl, setBlogUrl]  = useState('')
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
@@ -88,15 +91,62 @@ const App = () => {
     
   )
 
-  /*const blogForm = () => (
+  const blogForm = () => (
     <form onSubmit={addblog}>
-      <input
-        value={newblog}
-        onChange={handleblogChange}
-      />
-      <button type="submit">save</button>
+      <h2>Add blog</h2>
+      <div>
+        Title: <input
+          value={blogTitle}
+          onChange={handleBlogTitleChange}
+        />
+      </div>
+      <div>
+        Author: <input
+          value={blogAuthor}
+          onChange={handleBlogAuthorChange}
+        />
+      </div>
+      <div>
+        URL: <input
+          value={blogUrl}
+          onChange={handleBlogUrlChange}
+        />
+      </div>
+      <div>
+        <button type="submit">save</button>
+      </div>
     </form>  
-  )*/
+  )
+
+  const addblog = (event) => {
+    event.preventDefault()
+    const blogObject = {
+      title: blogTitle,
+      author: blogAuthor,
+      url: blogUrl
+    }
+
+    blogService
+      .create(blogObject)
+        .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+        setBlogTitle('')
+        setBlogAuthor('')
+        setBlogUrl('')
+      })
+  }
+
+  const handleBlogTitleChange = (event) => {
+    setBlogTitle(event.target.value)
+  }
+
+  const handleBlogAuthorChange = (event) => {
+    setBlogAuthor(event.target.value)
+  }
+
+  const handleBlogUrlChange = (event) => {
+    setBlogUrl(event.target.value)
+  }
 
   return (
     <div>
@@ -106,7 +156,10 @@ const App = () => {
        <p>{user.name} logged in</p> <form onSubmit={handleLogout}><button type="submit">log out</button></form>
       </div>
       }
+
+      {user && blogForm()}
       {user && showBlogs()}
+
     </div>
   )
 }
