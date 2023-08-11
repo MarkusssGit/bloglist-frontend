@@ -56,7 +56,7 @@ const App = () => {
   const loginForm = () => (
     <form onSubmit={handleLogin}>
       <div>
-        <h2>Login info</h2>
+        <h2>Login</h2>
         username
           <input
           type="text"
