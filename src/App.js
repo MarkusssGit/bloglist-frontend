@@ -9,9 +9,6 @@ import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl]  = useState('')
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
@@ -90,7 +87,10 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       {blogs.map(blog =>
-      <Blog key={blog.id} blog={blog} />
+      <Blog 
+        key={blog.id} 
+        blog={blog} 
+      />
       )}
     </div>
     
@@ -112,12 +112,13 @@ const App = () => {
     blogService
       .create(blogObject)
         .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setMessage(`new blog added: ${returnedBlog.title} by ${returnedBlog.author}`)
-        setMessageType('errorGreen')
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
+          returnedBlog.user = user
+          setBlogs(blogs.concat(returnedBlog))
+          setMessage(`new blog added: ${returnedBlog.title} by ${returnedBlog.author}`)
+          setMessageType('errorGreen')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
       })
   }
 
