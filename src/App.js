@@ -12,7 +12,8 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
+  const [messageType, setMessageType] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -44,9 +45,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setMessage('wrong credentials')
+      setMessageType('errorRed')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
     console.log('logging in with', username, password)
@@ -133,6 +135,11 @@ const App = () => {
         setBlogTitle('')
         setBlogAuthor('')
         setBlogUrl('')
+        setMessage(`new blog added: ${returnedBlog.title} by ${returnedBlog.author}`)
+        setMessageType('errorGreen')
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
   }
 
@@ -150,7 +157,9 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification 
+        message={message}
+        type={messageType} />
       {!user && loginForm()}
       {user && <div>
        <p>{user.name} logged in</p> <form onSubmit={handleLogout}><button type="submit">log out</button></form>
