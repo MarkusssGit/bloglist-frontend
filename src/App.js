@@ -100,51 +100,25 @@ const App = () => {
     <div>
       <Togglable buttonLabel='new blog' ref={blogFormRef}>
         <BlogForm 
-          addblog={addblog}
-          blogTitle={blogTitle}
-          handleBlogTitleChange={handleBlogTitleChange}
-          blogAuthor={blogAuthor} 
-          handleBlogAuthorChange={handleBlogAuthorChange} 
-          blogUrl={blogUrl} 
-          handleBlogUrlChange={handleBlogUrlChange}
+          createBlog={addblog}
         /> 
       </Togglable>
     </div>
   )
 
-  const addblog = (event) => {
+  const addblog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    const blogObject = {
-      title: blogTitle,
-      author: blogAuthor,
-      url: blogUrl
-    }
 
     blogService
       .create(blogObject)
         .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setBlogTitle('')
-        setBlogAuthor('')
-        setBlogUrl('')
         setMessage(`new blog added: ${returnedBlog.title} by ${returnedBlog.author}`)
         setMessageType('errorGreen')
         setTimeout(() => {
           setMessage(null)
         }, 5000)
       })
-  }
-
-  const handleBlogTitleChange = (event) => {
-    setBlogTitle(event.target.value)
-  }
-
-  const handleBlogAuthorChange = (event) => {
-    setBlogAuthor(event.target.value)
-  }
-
-  const handleBlogUrlChange = (event) => {
-    setBlogUrl(event.target.value)
   }
 
   return (
