@@ -92,7 +92,8 @@ const App = () => {
         <Blog 
           key={blog.id} 
           blog={blog}
-          handlelike= {handlelike}
+          handlelike={handlelike}
+          handleDelete={handleDelete}
         />
         )}
       </div>
@@ -126,19 +127,38 @@ const App = () => {
   }
 
   const handlelike = id => {
-    console.log("id: ", id)
     const likedblog = blogs.find(blog => blog.id === id)
-    console.log("likedblog: ", likedblog)
     const newLikes = likedblog.likes + 1
     
     const changedblog = { ...likedblog, likes: newLikes }
-    console.log("changedlog: ", changedblog)
 
     blogService
       .update(id, changedblog)
       .then(returnedBlog => {
         setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
       })
+  }
+
+  const handleDelete = id => {
+    if (window.confirm('Do you really want to delete this blog?')) {
+      blogService
+        .remove(id)
+        .then(() => {
+          setBlogs(blogs.filter(blog => blog.id !== id))
+          setMessage('Blog deleted')
+          setMessageType('errorGreen')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
+        .catch(error => {
+          setMessage('Failed to delete blog')
+          setMessageType('errorRed')
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
+        })
+    }
   }
 
   return (
