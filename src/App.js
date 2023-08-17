@@ -89,7 +89,8 @@ const App = () => {
       {blogs.map(blog =>
       <Blog 
         key={blog.id} 
-        blog={blog} 
+        blog={blog}
+        handlelike= {handlelike}
       />
       )}
     </div>
@@ -119,6 +120,22 @@ const App = () => {
           setTimeout(() => {
             setMessage(null)
           }, 5000)
+      })
+  }
+
+  const handlelike = id => {
+    console.log("id: ", id)
+    const likedblog = blogs.find(blog => blog.id === id)
+    console.log("likedblog: ", likedblog)
+    const newLikes = likedblog.likes + 1
+    
+    const changedblog = { ...likedblog, likes: newLikes }
+    console.log("changedlog: ", changedblog)
+
+    blogService
+      .update(id, changedblog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
       })
   }
 
