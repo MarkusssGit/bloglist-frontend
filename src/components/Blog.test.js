@@ -17,7 +17,7 @@ test('renders content', () => {
   expect(element).toBeDefined()
 })
 
-/*test('clicking the button calls event handler once', async () => {
+test('clicking like twice calls event handler two times', async () => {
     const blog = {
         title: 'testTitle',
         author: 'testAuthor',
@@ -25,19 +25,24 @@ test('renders content', () => {
         user: { username: 'Markus'}
     }
     console.log("blog: ", blog)
+
     const mockHandler = jest.fn()
   
     render(
-      <Blog blog={blog} />
+      <Blog blog={blog} handlelike={mockHandler}/>
     )
   
     const user = userEvent.setup()
     const button = screen.getByText('view more info')
     await user.click(button)
+
+    const button2 = screen.getByText('Like')
+    await user.click(button2)
+    await user.click(button2)
   
     console.log("mock.calls: ", mockHandler.mock.calls)
-    expect(mockHandler.mock.calls).toHaveLength(1)
-})*/
+    expect(mockHandler.mock.calls).toHaveLength(2)
+})
 
 test('clicking the "view more info" button shows the additional information', async () => {
     const blog = {
