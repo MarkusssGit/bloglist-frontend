@@ -65,4 +65,4 @@ test('clicking the "view more info" button shows the additional information', as
     expect(screen.getByText('URL: testUrl')).toBeInTheDocument()
     expect(screen.getByText('likes: 0')).toBeInTheDocument()
     expect(screen.getByText('Markus')).toBeInTheDocument()
-  })
+})
