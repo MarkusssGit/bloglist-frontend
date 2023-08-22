@@ -72,5 +72,12 @@ describe('Blog ', function() {
       cy.contains('Like').click()
       cy.contains('likes: 1')
     })
+    it('blog can be deleted', function() {
+      cy.contains('view more info').click()
+      cy.contains('Delete').click()
+      cy.get('.errorGreen')
+        .should('contain', 'Blog deleted')
+      cy.get('html').should('not.contain', 'cypresstitle by cypressauthor')
+    })
   })
 })
