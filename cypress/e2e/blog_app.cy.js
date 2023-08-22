@@ -50,4 +50,27 @@ describe('Blog ', function() {
       cy.contains('cypresstitle by cypressauthor')
     })
   })
+
+  describe('blog has been created', function() {
+    beforeEach(function() {
+      cy.contains('log in').click()
+      cy.get('#username').type('Markus')
+      cy.get('#password').type('fullstack')
+      cy.get('#login-button').click()
+
+      cy.contains('new blog').click()
+      cy.get('#title').type('cypresstitle')
+      cy.get('#author').type('cypressauthor')
+      cy.get('#url').type('www.cypress.com')
+      cy.contains('save').click()
+      cy.contains('new blog added: cypresstitle by cypressauthor')
+      cy.contains('cypresstitle by cypressauthor')
+    })
+    it('blog can be liked', function() {
+      cy.contains('view more info').click()
+      cy.contains('likes: 0')
+      cy.contains('Like').click()
+      cy.contains('likes: 1')
+    })
+  })
 })
